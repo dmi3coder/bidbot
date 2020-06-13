@@ -8,7 +8,7 @@ import auction.Bidder;
  *
  * @author Dmytro Chaban
  */
-public class BidderImpl implements Bidder {
+public class BidderImpl implements Bidder, BidderContext {
 
     private int auctionQuantity;
     private int cash;
@@ -42,20 +42,17 @@ public class BidderImpl implements Bidder {
     }
 
     /**
-     * Get currently available quantity on auction,
-     *
-     * @return quantity left in auction including reserved for current bid
+     * {@inheritDoc}
      */
+    @Override
     public int getAuctionQuantity() {
         return auctionQuantity;
     }
 
     /**
-     * Get currently available cash for this bidder
-     * This is amount of cash that can be used in next bid
-     *
-     * @return cash left in bidder including reserved for current bid
+     * {@inheritDoc}
      */
+    @Override
     public int getCash() {
         return cash;
     }
