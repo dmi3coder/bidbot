@@ -5,10 +5,9 @@ Feature: Place bid
     Given dummy Bidder created
     And call init with <qu> quantity and <cash> cash
     When Auction asks to bid
-    Then bid <bid_amount> cash
-    And Auction received <bid_amount> cash
+    Then Auction received <bid_amount> cash
 
     Examples:
       | qu | cash | bid_amount |
-      | 10 | 1000 | 100        |
-      | 10 | 2000 | 200        |
+      | 10 | 1000 | 200        |
+      | 10 | 2000 | 400        |
