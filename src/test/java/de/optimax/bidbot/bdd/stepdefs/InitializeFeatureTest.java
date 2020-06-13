@@ -27,7 +27,7 @@ public class InitializeFeatureTest {
 
     @Then("dummy Bidder should have {int} quantity and {int} cash")
     public void dummyBidderShouldHaveQuQuantityAndCashCash(long qu, long cash) {
-        assertEquals("Qu should be equal to initialized value", qu, bidder.getQuantity());
+        assertEquals("Qu should be equal to initialized value", qu, bidder.getAuctionQuantity());
         assertEquals("Cash should be equal to initialized value", cash, bidder.getCash());
     }
 }
