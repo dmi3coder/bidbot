@@ -29,6 +29,6 @@ public class SimpleBiddingStrategy implements BiddingStrategy {
         if (initialMoneyAmount == 0 || initialQuantity == 0) {
             return 0;
         }
-        return initialMoneyAmount / (initialQuantity / 2);
+        return (int) Math.ceil(initialMoneyAmount / (initialQuantity / 2.0));
     }
 }
