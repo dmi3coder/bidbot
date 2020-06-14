@@ -1,5 +1,10 @@
 package de.optimax.bidbot.bidder;
 
+import de.optimax.bidbot.history.AuctionHistory;
+
+/**
+ * Context used in {@link de.optimax.bidbot.strategy.BiddingStrategy} to get access into current state of bidder
+ */
 public interface BidderContext {
 
     /**
@@ -16,4 +21,18 @@ public interface BidderContext {
      * @return cash left in bidder including reserved for current bid
      */
     int getCash();
+
+    /**
+     * Get currently owned quantity for this bidder
+     *
+     * @return quantity owned by bidder
+     */
+    int getOwnQuantity();
+
+    /**
+     * Get current history of all transactions excluding currently active
+     *
+     * @return history of all bidding transactions
+     */
+    AuctionHistory getHistory();
 }

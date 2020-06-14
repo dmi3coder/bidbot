@@ -10,7 +10,7 @@ Feature: Handle results
   After that, the bids will be visible to both.
     When Bidder received 200 from Bidder and 300 from Opponent
     Then Bidder should store 200 from Bidder and 300 from Opponent into results history
-    And Bidder should withdraw 200 from available cash
+    And Bidder should withdraw 200 from available 1000 cash
 
   Scenario Template: Handle bid situation
   The 2 QU of the product is awarded to who has offered the most MU;
@@ -18,7 +18,7 @@ Feature: Handle results
   A bid of 0 MU is allowed.
     When Bidder received <own_bid_amount> from Bidder and <opponent_bid_amount> from Opponent
     Then Bidder should store <own_bid_amount> from Bidder and <opponent_bid_amount> from Opponent into results history
-    And Bidder should add <bidder_qu_amount> to Bidder and <opponent_qu_amount> to Opponent
+    And Bidder should add <bidder_qu_amount> QU to Bidder and <opponent_qu_amount> QU to Opponent
 
     Examples:
       | own_bid_amount | opponent_bid_amount | bidder_qu_amount | opponent_qu_amount |
@@ -26,8 +26,8 @@ Feature: Handle results
       | 200            | 300                 | 0                | 2                  |
       | 300            | 300                 | 1                | 1                  |
       | 0              | 300                 | 0                | 2                  |
-      | 300            | 0                   | 0                | 0                  |
-      | 0              | 0                   | 0                | 0                  |
+      | 300            | 0                   | 2                | 0                  |
+      | 0              | 0                   | 1                | 1                  |
 
   Scenario Template: Handle complete auction process
   Bidding on each 2 QU is repeated until the supply of x QU is fully auctioned.

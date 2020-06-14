@@ -1,14 +1,15 @@
 package de.optimax.bidbot.bidder;
 
 import auction.Bidder;
+import de.optimax.bidbot.history.AuctionHistory;
+import de.optimax.bidbot.history.AuctionHistoryImpl;
+import de.optimax.bidbot.history.AuctionTransaction;
 import de.optimax.bidbot.strategy.BiddingStrategy;
 import de.optimax.bidbot.strategy.SimpleBiddingStrategy;
 
 /**
  * Implementation of {@link Bidder} interface
  * Used for communication with Auction, tracking of {@link #auctionQuantity} and {@link #cash} changes
- *
- * @author Dmytro Chaban
  */
 public class BidderImpl implements Bidder, BidderContext {
 
@@ -16,6 +17,8 @@ public class BidderImpl implements Bidder, BidderContext {
 
     private int auctionQuantity;
     private int cash;
+    private int ownQuantity;
+    private final AuctionHistory history;
 
 
     /**
@@ -23,6 +26,7 @@ public class BidderImpl implements Bidder, BidderContext {
      */
     public BidderImpl() {
         this.strategy = new SimpleBiddingStrategy();
+        this.history = new AuctionHistoryImpl();
     }
 
     /**
@@ -51,7 +55,17 @@ public class BidderImpl implements Bidder, BidderContext {
      */
     @Override
     public void bids(int own, int other) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        int bidderQuWon = 0, opponentQuWon = 0;
+        if (own > other) {
+            bidderQuWon = 2;
+        } else if (own < other) {
+            opponentQuWon = 2;
+        } else {
+            bidderQuWon = opponentQuWon = 1;
+        }
+        this.ownQuantity += bidderQuWon;
+        this.cash -= own;
+        history.addTransaction(new AuctionTransaction(own, other, bidderQuWon, opponentQuWon));
     }
 
     /**
@@ -68,5 +82,21 @@ public class BidderImpl implements Bidder, BidderContext {
     @Override
     public int getCash() {
         return cash;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getOwnQuantity() {
+        return ownQuantity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AuctionHistory getHistory() {
+        return history;
     }
 }
