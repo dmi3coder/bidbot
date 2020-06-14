@@ -10,7 +10,7 @@ import java.util.Random;
 
 import static org.junit.Assert.assertTrue;
 
-public class BidderImplIT {
+public class BidderImplIntegrationTest {
     public static final int QU_AMOUNT = 2000;
 
     private BidderImpl bidder;
