@@ -55,7 +55,11 @@ public class BidderImpl implements Bidder, BidderContext {
      */
     @Override
     public int placeBid() {
-        return strategy.nextBid();
+        if(cash == 0) {
+            return 0;
+        }
+        final int nextBid = strategy.nextBid();
+        return Math.min(nextBid, cash);
     }
 
     /**
