@@ -25,8 +25,16 @@ public class BidderImpl implements Bidder, BidderContext {
      * Initialize BidderImpl with default bidding strategy
      */
     public BidderImpl() {
-        this.strategy = new SimpleBiddingStrategy();
-        this.history = new AuctionHistoryImpl();
+        this(new SimpleBiddingStrategy(), new AuctionHistoryImpl());
+    }
+
+    public BidderImpl(BiddingStrategy strategy) {
+        this(strategy, new AuctionHistoryImpl());
+    }
+
+    public BidderImpl(BiddingStrategy strategy, AuctionHistory history) {
+        this.strategy = strategy;
+        this.history = history;
     }
 
     /**
@@ -64,6 +72,7 @@ public class BidderImpl implements Bidder, BidderContext {
             bidderQuWon = opponentQuWon = 1;
         }
         this.ownQuantity += bidderQuWon;
+        this.auctionQuantity -= 2;
         this.cash -= own;
         history.addTransaction(new AuctionTransaction(own, other, bidderQuWon, opponentQuWon));
     }
