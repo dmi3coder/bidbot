@@ -1,6 +1,7 @@
 package de.optimax.bidbot.bidder;
 
 import de.optimax.bidbot.history.AuctionTransaction;
+import de.optimax.bidbot.strategy.regression.LinearRegressionBiddingStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 import static org.junit.Assert.assertTrue;
 
 public class BidderImplIT {
-    public static final int QU_AMOUNT = 100000;
+    public static final int QU_AMOUNT = 2000;
 
     private BidderImpl bidder;
 
@@ -21,20 +22,22 @@ public class BidderImplIT {
     }
 
     /**
-     * Stable calculated strategy better than random bids from 0 to 1000
-     * Won't help versus learning bot
+     * Adapting Linear Regression strategy is better than chaotic random bids from opponent
      */
     @Test
     void bidder_normalFlow() {
         int bidderQuMax = 0, opponentQuMax = 0;
-        for (int i = 0; i < 100; i++) {
-            bidder = new BidderImpl();
+        for (int i = 0; i < 10; i++) {
+            bidder = new BidderImpl(new LinearRegressionBiddingStrategy());
             bidder.init(QU_AMOUNT, QU_AMOUNT * 300);
             final Random random = new Random();
             for (int j = 0; j < QU_AMOUNT / 2; j++) {
                 final int bidderBid = bidder.placeBid();
-                final int opponentBid = random.nextInt(1000);
+                final int opponentBid = random.nextInt(1000); // Imitate bidder
                 bidder.bids(bidderBid, opponentBid);
+                if (j % 100 == 0) {
+                    System.out.println("Auction # " + j + " Own bid: " + bidderBid + " Opponent bid: " + opponentBid);
+                }
             }
             final List<AuctionTransaction> auctionTransactions = bidder.getHistory().getTransactions();
             final int bidderTotalQuReceived = auctionTransactions.stream().mapToInt(AuctionTransaction::getBidderQuReceived).sum();
@@ -46,7 +49,7 @@ public class BidderImplIT {
                 opponentQuMax = opponentTotalQuReceived;
             }
         }
+        System.out.println("Auction results own max won QU amount: " + bidderQuMax + " vs opponent: " + opponentQuMax);
         assertTrue(bidderQuMax > opponentQuMax);
-        System.out.println("TOTAL MAX: " + bidderQuMax + " vs opponent: " + opponentQuMax);
     }
 }
