@@ -4,6 +4,7 @@ import de.optimax.bidbot.bidder.BidderContext;
 import de.optimax.bidbot.history.AuctionHistory;
 import de.optimax.bidbot.history.AuctionTransaction;
 import de.optimax.bidbot.strategy.BiddingStrategy;
+import de.optimax.bidbot.strategy.SimpleBiddingStrategy;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.List;
@@ -26,12 +27,13 @@ public class LinearRegressionBiddingStrategy implements BiddingStrategy {
     private SimpleMatrix theta;
     private int lastPosition = 0;
     private final double bidCoefficient;
+    private final BiddingStrategy fallbackStrategy;
 
     /**
      * Init LinearRegressionBiddingStrategy with default bid coefficient {@link #DEFAULT_BID_COEFFICIENT}
      */
     public LinearRegressionBiddingStrategy() {
-        this.bidCoefficient = DEFAULT_BID_COEFFICIENT;
+        this(DEFAULT_BID_COEFFICIENT);
     }
 
     /**
@@ -40,7 +42,18 @@ public class LinearRegressionBiddingStrategy implements BiddingStrategy {
      * @param bidCoefficient coefficient which should be applied to
      */
     public LinearRegressionBiddingStrategy(double bidCoefficient) {
+        this(bidCoefficient, new SimpleBiddingStrategy());
+    }
+
+    /**
+     * Inits LinearRegressionBiddingStrategy with custom bidCoefficient and fallbackStrategy
+     *
+     * @param bidCoefficient coefficient which should be applied to
+     * @param fallbackStrategy strategy that is used when LinearRegression doesn't have enough data
+     */
+    public LinearRegressionBiddingStrategy(double bidCoefficient, BiddingStrategy fallbackStrategy) {
         this.bidCoefficient = bidCoefficient;
+        this.fallbackStrategy = fallbackStrategy;
     }
 
     /**
@@ -48,6 +61,7 @@ public class LinearRegressionBiddingStrategy implements BiddingStrategy {
      */
     @Override
     public void init(BidderContext context) {
+        fallbackStrategy.init(context);
         this.context = context;
     }
 
@@ -59,9 +73,9 @@ public class LinearRegressionBiddingStrategy implements BiddingStrategy {
     @Override
     public int nextBid() {
         final List<AuctionTransaction> transactions = context.getHistory().getTransactions();
-        // We want to learn from opponent
+        // We want to learn from opponent, use fallback strategy
         if (transactions.size() < 10) {
-            return 0;
+            return fallbackStrategy.nextBid();
         }
         if (transactions.size() % 10 == 0) {
             this.trainModel();
