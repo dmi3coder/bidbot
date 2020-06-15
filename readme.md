@@ -26,6 +26,8 @@ Application that can participate in auction and compete with opponent.
     
 ### Entrypoint
 
+![img](img/diagram.png)
+
 #### 1. Behavior-driven development
 It's highly recommended to start with `./src/test/resources/features/` to understand how code behaves. 
 This project uses BDD because rules clearly specified. Project uses Cucumber(see `literature.md`) to bind gherkin to java tests
