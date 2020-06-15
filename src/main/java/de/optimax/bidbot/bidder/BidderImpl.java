@@ -55,7 +55,7 @@ public class BidderImpl implements Bidder, BidderContext {
      */
     @Override
     public int placeBid() {
-        if(cash == 0) {
+        if (cash == 0) {
             return 0;
         }
         final int nextBid = strategy.nextBid();
@@ -111,5 +111,41 @@ public class BidderImpl implements Bidder, BidderContext {
     @Override
     public AuctionHistory getHistory() {
         return history;
+    }
+
+    /**
+     * Returns new {@link Builder} for BidderImpl
+     * @return new builder for BidderIml
+     */
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    /**
+     * Builder for {@link BidderImpl} that allows to selectively set parameters, leaving other by default
+     */
+    public static class Builder {
+
+        private Builder() {
+        }
+
+        private BiddingStrategy strategy = new SimpleBiddingStrategy();
+        private AuctionHistory history = new AuctionHistoryImpl();
+
+        public Builder withStrategy(BiddingStrategy strategy) {
+            this.strategy = strategy;
+            return this;
+        }
+
+        public Builder withHistory(AuctionHistory history) {
+            this.history = history;
+            return this;
+        }
+
+        public BidderImpl build() {
+            return new BidderImpl(strategy, history);
+        }
+
+
     }
 }

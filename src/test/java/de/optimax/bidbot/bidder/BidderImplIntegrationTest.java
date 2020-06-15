@@ -87,7 +87,7 @@ public class BidderImplIntegrationTest {
         int bidderQuMax = 0, opponentQuMax = 0;
         BidderImpl opponent;
         for (int i = 0; i < 10; i++) {
-            bidder = new BidderImpl(new LinearRegressionBiddingStrategy(1.01));
+            bidder = BidderImpl.newBuilder().withStrategy(new LinearRegressionBiddingStrategy(1.01)).build();
             opponent = new BidderImpl();
             processAuction(opponent);
             final List<AuctionTransaction> auctionTransactions = bidder.getHistory().getTransactions();
