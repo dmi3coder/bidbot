@@ -59,6 +59,9 @@ public class BidderImpl implements Bidder, BidderContext {
             return 0;
         }
         final int nextBid = strategy.nextBid();
+        if (nextBid < 0) {
+            return 0;
+        }
         return Math.min(nextBid, cash);
     }
 
@@ -115,6 +118,7 @@ public class BidderImpl implements Bidder, BidderContext {
 
     /**
      * Returns new {@link Builder} for BidderImpl
+     *
      * @return new builder for BidderIml
      */
     public static Builder newBuilder() {
