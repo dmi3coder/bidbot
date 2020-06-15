@@ -4,7 +4,7 @@ import de.optimax.bidbot.bidder.BidderImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CucumberContext {
+public class BidderTestContext {
 
     private BidderImpl bidder;
 

@@ -3,7 +3,7 @@ package de.optimax.bidbot.bdd.stepdefs;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import de.optimax.bidbot.bdd.CucumberContext;
+import de.optimax.bidbot.bdd.BidderTestContext;
 import de.optimax.bidbot.history.AuctionTransaction;
 
 import java.util.stream.IntStream;
@@ -12,9 +12,9 @@ import static org.junit.Assert.assertEquals;
 
 public class HandleResultsFeature {
 
-    private final CucumberContext context;
+    private final BidderTestContext context;
 
-    public HandleResultsFeature(CucumberContext context) {
+    public HandleResultsFeature(BidderTestContext context) {
         this.context = context;
     }
 
@@ -59,10 +59,7 @@ public class HandleResultsFeature {
 
     @When("Bidder received {int} from Bidder and {int} from Opponent {int} times")
     public void bidderReceivedOwnBidAmountFromBidderAndOpponentBidAmountFromOpponentTimes(int ownBidAmount, int opponentBidAmount, int times) {
-        IntStream.range(0, times).forEach(it -> {
-            System.out.println("ping");
-            context.getBidder().bids(ownBidAmount, opponentBidAmount);
-        });
+        IntStream.range(0, times).forEach(it -> context.getBidder().bids(ownBidAmount, opponentBidAmount));
     }
 
     @Then("Bidder should have {int} cash and {int} quantity")

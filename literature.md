@@ -9,4 +9,5 @@
 
 ## Resources
 1. [EJML library](http://ejml.org/)
+1. [EJML SimpleMatrix](http://ejml.org/wiki/index.php?title=SimpleMatrix)
 2. [Logistic Utils from my Behaiv Library](https://github.com/dmi3coder/behaiv-java/blob/master/src/main/java/de/dmi3y/behaiv/kernel/logistic/LogisticUtils.java)

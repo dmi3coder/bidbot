@@ -2,16 +2,16 @@ package de.optimax.bidbot.bdd.stepdefs;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import de.optimax.bidbot.bdd.CucumberContext;
+import de.optimax.bidbot.bdd.BidderTestContext;
 
 import static org.junit.Assert.assertEquals;
 
 public class PlaceBidFeatureTest {
 
-    private CucumberContext context;
+    private BidderTestContext context;
     private int bidResult;
 
-    public PlaceBidFeatureTest(CucumberContext context) {
+    public PlaceBidFeatureTest(BidderTestContext context) {
         this.context = context;
     }
 
