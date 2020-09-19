@@ -1,4 +1,4 @@
-# Optimax Energy Bidbot
+# Trading Bidbot
 ### Bidding bot with pluggable strategies
 Application that can participate in auction and compete with opponent.
 
@@ -8,7 +8,7 @@ Application that can participate in auction and compete with opponent.
 
 1. Clone this repository
     ```commandline
-    git clone https://github.com/dmi3coder/optimax-bidbot.git && cd optimax-bidbot
+    git clone https://github.com/dmi3coder/bidbot.git && cd bidbot
     ```
 2. Install required dependencies(optional)
     ```commandline
